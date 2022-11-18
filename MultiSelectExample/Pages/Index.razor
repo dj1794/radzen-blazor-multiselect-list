@@ -1,0 +1,44 @@
+﻿@page "/"
+
+<PageTitle>Index</PageTitle>
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+<SurveyPrompt Title="How is Blazor working for you?" />
+
+<div class="col-md-6 p-3">
+    <RadzenCard>
+        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Multiple selection</RadzenText>
+        <RadzenListBox AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" @bind-Value=@selectedValues Multiple="true" Data=@customers
+                       TextProperty="CompanyName" ValueProperty="CustomerID" Change=@(args => OnChange()) Style="height:200px" Class="w-100" />
+    </RadzenCard>
+</div>
+@code
+{
+    List<Customer> customers;
+    List<int> selectedValues = new List<int>();
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        customers = new List<Customer>(){
+            new Customer { CustomerID = 1, CompanyName = "xyz" },
+              new Customer { CustomerID = 2, CompanyName = "abc" },
+                new Customer { CustomerID = 3, CompanyName = "pqr" },
+                 new Customer { CustomerID = 4, CompanyName = "xyz1" },
+              new Customer { CustomerID = 5, CompanyName = "abc1" },
+                new Customer { CustomerID = 6, CompanyName = "pqr1" }
+        };
+    
+    }
+    void OnChange()
+    {
+        Console.WriteLine($"slected values: {string.Join(",", selectedValues.ToArray())}");
+    }
+    class Customer{
+        public int CustomerID { get; set; }
+        public string CompanyName { get; set; }
+    }
+
+}
